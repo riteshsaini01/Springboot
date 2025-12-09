@@ -1,5 +1,6 @@
 package com.ecom.productcatalog.controller;
 
+import com.ecom.productcatalog.model.Category;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,7 +10,8 @@ import java.util.List;
 @RequestMapping("/api/categories")
 public class CategoryController {
 
-    public List<Category> getAllCategories(){
-        
+    public List<Category> getAllCategories() {
+
+
+      }
     }
-}
