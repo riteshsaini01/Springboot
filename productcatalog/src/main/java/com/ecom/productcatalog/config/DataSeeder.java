@@ -7,7 +7,7 @@ import com.ecom.productcatalog.repository.ProductRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class DataSeeder implements CommandLineRunner {
@@ -15,63 +15,67 @@ public class DataSeeder implements CommandLineRunner {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
 
-    public DataSeeder(ProductRepository productRepository, CategoryRepository categoryRepository) {
+    public DataSeeder(ProductRepository productRepository,
+                      CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
 
         // Clear all existing data
         productRepository.deleteAll();
         categoryRepository.deleteAll();
 
-        // Create Categories
-        Category electronics = new Category();
-        electronics.setName("Electronics");
+        // Create Categories using Builder
+        Category electronics = Category.builder()
+                .name("Electronics")
+                .build();
 
-        Category clothing = new Category();
-        clothing.setName("Clothing");
+        Category clothing = Category.builder()
+                .name("Clothing")
+                .build();
 
-        Category home = new Category();
-        home.setName("Home and Kitchen");
+        Category home = Category.builder()
+                .name("Home and Kitchen")
+                .build();
 
-        categoryRepository.saveAll(Arrays.asList(electronics, home, clothing));
+        categoryRepository.saveAll(List.of(electronics, clothing, home));
 
-        // Create Products
-        Product phone = new Product();
-        phone.setName("SmartPhone");
-        phone.setDescription("Latest model smartphone with latest features");
-        phone.setImageUrl("https://placehold.co/600x400");
-        phone.setPrice(7000.0);
-        phone.setCategory(electronics);
+        // Create Products using Builder
+        Product phone = Product.builder()
+                .name("SmartPhone")
+                .description("Latest model smartphone with latest features")
+                .imageUrl("https://placehold.co/600x400")
+                .price(7000.0)
+                .category(electronics)
+                .build();
 
+        Product laptop = Product.builder()
+                .name("Laptop")
+                .description("High performance laptop for work and play with latest features")
+                .imageUrl("https://placehold.co/600x400")
+                .price(25000.0)
+                .category(electronics)
+                .build();
 
-        Product laptop = new Product();
-        laptop.setName("Laptop");
-        laptop.setDescription("High performance laptop for work and play with latest features");
-        laptop.setImageUrl("https://placehold.co/600x400");
-        laptop.setPrice(25000.0);
-        laptop.setCategory(electronics);
+        Product jacket = Product.builder()
+                .name("Winter Jacket")
+                .description("Warm and cozy jacket for winter.")
+                .imageUrl("https://placehold.co/600x400")
+                .price(1000.0)
+                .category(clothing)
+                .build();
 
+        Product blender = Product.builder()
+                .name("Blender")
+                .description("A high speed blender for smoothies and more")
+                .imageUrl("https://placehold.co/600x400")
+                .price(7000.0)
+                .category(home)
+                .build();
 
-        Product jacket = new Product();
-        jacket.setName("Winter Jacket");
-        jacket.setDescription("Warm and cozy jacket for winter.");
-        jacket.setImageUrl("https://placehold.co/600x400");
-        jacket.setPrice(1000.0);
-        jacket.setCategory(clothing);
-
-
-        Product blender = new Product();
-        blender.setName("Blender");
-        blender.setDescription("A high speed blender for smoothies and more");
-        blender.setImageUrl("https://placehold.co/600x400");
-        blender.setPrice(7000.0);
-        blender.setCategory(home);
-
-        productRepository.saveAll(Arrays.asList(phone, laptop, jacket, blender));
-
+        productRepository.saveAll(List.of(phone, laptop, jacket, blender));
     }
 }
